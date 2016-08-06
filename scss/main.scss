@@ -1,0 +1,30 @@
+.bg-color--white {
+	background: #fff;
+	box-shadow: 0 0 1px #c0c0c0;
+	padding: 15px;
+
+}
+
+.content-form,
+.form-view-winners {
+	background: #fff;
+	border-radius: 5px;
+	margin: 15px auto;
+	padding: 20px;
+	width: 60%;
+}
+
+.form-group {
+	position: relative;
+}
+
+.fa-check:before {
+	position: absolute;
+	right: 10px;
+	top: 34px;
+}
+
+
+
+
+
