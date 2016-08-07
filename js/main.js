@@ -11,8 +11,7 @@
 			  countStrTable = 1,//для счётчик строк в таблице
 				erorMsg 			= document.createElement('small'),//строка для вывода сообщения об ошибки
 			  tbody         = document.getElementById('tbody'),
-			  arrName       = [],
-			  spanRem       = document.createElement('span');//удаляет случайный, вставленный елемент
+			  arrName       = [];
 
 
 
@@ -122,10 +121,11 @@
 			    e.returnValue = false;
 			  }
 
-			  var rand = Math.floor ( Math.random() * arrName.length );
-			  var boot = document.getElementsByClassName( 'bootstrap-tagsinput' )[0];
-			  var input = boot.getElementsByTagName( 'input' )[0];
-			  var span = document.createElement( 'span' );
+			  var rand 		= Math.floor ( Math.random() * arrName.length ),
+			  		boot 		= document.getElementsByClassName( 'bootstrap-tagsinput' )[0],
+			  		input 	= boot.getElementsByTagName( 'input' )[0],
+			  		span 		= document.createElement( 'span' ),
+			  		spanRem = document.createElement('span');//удаляет случайный, вставленный елемент
 
 			  boot.insertBefore( span, input );
 			  span.className = 'tag label label-info';
@@ -138,7 +138,7 @@
 			}
 
 			spanRem.onclick = function () {//удаление случайного елемента
-				this.parentNode.remove( this );
+				this.parentNode.remove( this 	);
 	}
 })();
 
@@ -147,3 +147,4 @@
 	// 3.подстановка галочек в телефон
 	// 4.может что то упростить
 	// 5.поле для сгенерированного случайного ел-та не на полную ширину
+	// 6.и не понятно почему выдаёт ошибку консоль если запущен через index.html(1.не видит datepicker, 2.ошибка с кнопокй New winner)
