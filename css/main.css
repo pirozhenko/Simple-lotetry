@@ -1,3 +1,8 @@
+.error-message {
+  display: none;
+  font-size: 10px;
+  color: #f00; }
+
 .invalid {
   border-color: red; }
 
@@ -7,6 +12,9 @@
 
 .valid {
   border-color: green; }
+
+.delete {
+  display: none; }
 
 .bg-color--white {
   background: #fff;
@@ -28,5 +36,11 @@
   position: absolute;
   right: 10px;
   top: 34px; }
+
+.form-group.invalid input {
+  border: 1px solid red; }
+
+.form-group.invalid .error-message {
+  display: block; }
 
 /*# sourceMappingURL=main.css.map */
