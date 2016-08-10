@@ -35,7 +35,8 @@
 .fa-check:before {
   position: absolute;
   right: 10px;
-  top: 34px; }
+  top: 34px;
+  color: green; }
 
 .form-group.invalid input {
   border: 1px solid red; }

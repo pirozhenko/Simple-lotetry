@@ -15,88 +15,118 @@ var app = {
 
         },
 
-        validationEmail: function() {
-            var elem = document.getElementById('email'),
-                mail = elem.value,
-                regexp = this.settings.regExForMail,
-                invalidClass = this.settings.invalidClass;
+        validationEmail: function( elem ) {
+           value = elem.value;
+           regexp = this.settings.regExForMail;
 
-            if (mail.length !== 0 && mail.match(regexp).length === mail.length) {
-                elem.removeClass(invalidClass);
-                return mail;
-            } else {
-                elem.addClass(invalidClass);
-            }
+           return regexp.test( value );
         },
 
-        validationPhone: function() {
-           var elem = document.getElementById('phone'),
-               phone = elem.value,
-               regexp = this.settings.regExForPhone,
-               invalidClass = this.settings.invalidClass;
+        validationPhone: function( elem ) {
+            value = elem.value;
+            regexp = this.settings.regExForPhone;
 
-           if (phone.length !== 0 && phone.match(regexp).length === phone.length) {
-               elem.removeClass(invalidClass);
-               return phone;
-           } else {
-               elem.addClass(invalidClass);
-           }
+           return regexp.test( value );
+        },
+
+        success: function(parent, input, check) {
+            var invalidClass    = this.settings.invalidClass,
+                validClass      = this.settings.validClass;
+
+            parent.removeClass(invalidClass);
+            input.addClass(validClass);
+            parent.appendChild(check);
+            check.addClass('fa fa-check');
+        },
+
+        fail: function( parent ) {
+            var invalidClass    = this.settings.invalidClass,
+                validClass      = this.settings.validClass;
+
+            parent.addClass(invalidClass);
+            parent.removeClass(validClass);
         },
 
         validationInput: function( el ) {
-            var email = document.getElementById('imail'),
-                phone = document.getElementById('phone'),
-                valid = true;
+            var email  = document.getElementById('email'),
+                phone  = document.getElementById('phone'),
+                valid  = true,
+                text2  = this.settings.textForEmail,
+                text3  = this.settings.textForPhone,
+                check  = document.createElement('span'),//галочка
+                parent = el.target.parentNode,
+                input  = el.target;
 
-                invalidClass = this.settings.invalidClass,
-                text = this.settings.textForNullInput,
-                text2 = this.settings.textForEmail,
-                text3 = this.settings.textForPhone,
-                delClass = this.settings.delClass,
-                validClass = this.settings.validClass,
-                invalidClassMsg = this.settings.invalidClassMsg,
-                errorMsg = document.createElement('small'),//строка для вывода сообщения об ошибки;
-                check = document.createElement('span');//галочка
+           if ( input.value == '' ) {
+                this.fail(parent);
 
-                var parent = el.target.parentNode,
-                    input = el.target;
+                valid = false;
 
-               if ( input.value != '' ) {
-                      parent.removeClass(invalidClass);
-                      parent.addClass(validClass);
+           } else if ( email.value ) {
+                this.validationEmail( email );
+
+                if ( this.validationEmail(email) ) {
+
+                    this.success(parent, input, check);
+                    console.log('valid');
 
                     valid = true;
-               } else {
-                    parent.addClass(invalidClass);
-                    parent.removeClass(validClass);
-                    valid = false;
-               }
 
-               return valid;
+                } else {
+                    this.fail(parent);
+                    parent.getElementsByClassName('error-message')[0].innerHTML = text2;
+                    console.log('invalid');
+
+                    valid = false;
+                }
+
+           } else if ( phone.value ) {
+                this.validationPhone( phone );
+
+                if ( this.validationPhone( phone ) ) {
+
+                    this.success(parent, input, check);
+                    console.log('valid phone number');
+                    valid = true;
+                } else {
+                    this.fail(parent);
+                    parent.getElementsByClassName('error-message')[0].innerHTML = text3;
+                    console.log('invalid phone number');
+
+                    valid = false;
+                }
+
+           } else {
+
+                this.success(parent, input, check);
+
+                valid = true;
+           }
+
+           return valid;
         },
 
         addEl: function ( e ) {//нажатие на кнопку сохранить
 
             var countStrTable = this.settings.countStrTable,
-                arrName = this.settings.arrName,
-                tr = document.createElement( 'tr' ),
-                th = document.createElement( 'th' ),
+                arrName       = this.settings.arrName,
+                tr            = document.createElement( 'tr' ),
+                th            = document.createElement( 'th' ),
                 invalidFields = 0,
-                form = document.getElementById('form'),
-                tbody    = document.getElementById('tbody');
+                form          = document.getElementById('form'),
+                tbody         = document.getElementById('tbody');
 
 
             for ( var i = 0; i < form.length-1; i++ ) {//создание стольбцов и вставка их в таблицу с вместимостью инпутов
-                if ( form[i].value == '' ) {
+                if ( form[i].value == ''  ) {
 
                     form[i].parentNode.addClass(this.settings.invalidClass);
                     invalidFields += 1;
-                    // return false;
 
                 }
             }
 
-            if (invalidFields == 0) {
+            if ( invalidFields == 0 ) {
                 tbody.appendChild( tr );
                 tr.appendChild( th );
                 th.innerHTML = this.settings.countStrTable;
@@ -113,11 +143,12 @@ var app = {
         },
 
         winner: function ( e ) {
-            var arrName = this.settings.arrName;
-                rand        = Math.floor ( Math.random() * arrName.length ),
-                boot        = document.getElementsByClassName( 'bootstrap-tagsinput' )[0],
-                input   = boot.getElementsByTagName( 'input' )[0],
-                span        = document.createElement( 'span' );
+            var arrName  = this.settings.arrName;
+                rand     = Math.floor ( Math.random() * arrName.length ),
+                boot     = document.getElementsByClassName( 'bootstrap-tagsinput' )[0],
+                input    = boot.getElementsByTagName( 'input' )[0],
+                spanRem  = document.createElement( 'span' ),
+                span     = document.createElement( 'span' );
 
             input.setAttribute('size', '85%');
             boot.insertBefore( span, input );
@@ -128,13 +159,14 @@ var app = {
             spanRem.dataset.role = 'remove';
         },
 
-        removeSpan: function () {//удаление случайного елемента
-            this.parentNode.remove( this );
+        removeSpan: function ( span ) {//удаление случайного елемента
+            parentNode.remove( spa );
         },
 
         init: function() {
             var form     = document.getElementById('form'),
                 spanRem  = document.createElement( 'span' ),
+                span     = document.createElement( 'span' ),
                 tbody    = document.getElementById('tbody');
 
                 for ( var i = 0; i < form.length-1; i++ ) {
@@ -157,7 +189,7 @@ var app = {
 
                 spanRem.addEventListener("click", function(e) {
                     e.preventDefault();
-                    app.removeSpan(e);
+                    app.removeSpan(span);
                 });
 
             Element.prototype.hasClass = function (className) {
