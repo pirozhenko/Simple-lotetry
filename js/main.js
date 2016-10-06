@@ -65,7 +65,6 @@ var app = {
                 if ( this.validationEmail(email) ) {
 
                     this.success(parent, input, check);
-                    console.log('valid');
 
                     valid = true;
 
@@ -116,6 +115,7 @@ var app = {
                 tbody         = document.getElementById('tbody');
 
 
+
             for ( var i = 0; i < form.length-1; i++ ) {//создание стольбцов и вставка их в таблицу с вместимостью инпутов
                 if ( form[i].value == '' ) {
 
@@ -124,6 +124,7 @@ var app = {
 
                 }
             }
+                console.log(arrName);
 
             if ( (invalidFields == 0) && ( this.validationEmail(email) ) && ( this.validationPhone(phone) ) )  {
                 tbody.appendChild( tr );
